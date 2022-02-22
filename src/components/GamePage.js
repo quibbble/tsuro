@@ -16,9 +16,9 @@ export default function GamePage() {
     const ws = useRef();
     const [game, setGame] = useState();
     const [network, setNetwork] = useState();
-    const [chat, setChat] = useState([]);
+    // const [chat, setChat] = useState([]);
     const [connected, setConnected] = useState();
-    const [error, setError] = useState();
+    // const [error, setError] = useState();
 
     useEffect(() => {
         ws.current = new WebSocket(`ws${ CONFIG.scheme }://${ CONFIG.host }/game/join?GameKey=Tsuro&GameID=${ gid }`);
@@ -28,9 +28,9 @@ export default function GamePage() {
             let msg = JSON.parse(e.data);
             if (msg.Type === "Game") setGame(msg.Payload);
             else if (msg.Type === "Network") setNetwork(msg.Payload);
-            else if (msg.Type === "Chat") setChat(c => c.concat([msg.Payload]));
+            // else if (msg.Type === "Chat") setChat(c => c.concat([msg.Payload]));
             else if (msg.Type === "Connected") setConnected(msg.Payload);
-            else if (msg.Type === "Error") setError(msg.Payload);
+            // else if (msg.Type === "Error") setError(msg.Payload);
             console.log(msg);
         };
         ws.current.onerror = () => history.push("/");
@@ -262,7 +262,7 @@ function Tile({ edges, paths, row, col, tokens, team, placeTile }) {
     }, [row, col, tokens]);
 
     const [hideTile, setHideTile] = useState(false);
-    const [{isDragging}, drag, preview] = useDrag(() => ({
+    const [{isDragging}, drag] = useDrag(() => ({
         type: "tile",
         item: { edges },
         canDrag: () => row < 0 && col < 0,
