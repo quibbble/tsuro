@@ -8,7 +8,6 @@ import { useHistory } from "react-router-dom"
 import { useParams } from "react-router-dom"
 import { isMobile } from 'react-device-detect';
 
-
 export default function GamePage() {
     const history = useHistory();
     const { gid } = useParams();
@@ -88,7 +87,7 @@ export default function GamePage() {
             <div className="bg-red-500 bg-blue-500 bg-green-500 bg-yellow-500 bg-orange-500 bg-pink-500 bg-pink-500 bg-purple-500 bg-teal-500"/>
             <div className="fill-red-500 fill-blue-500 fill-green-500 fill-yellow-500 fill-orange-500 fill-pink-500 fill-pink-500 fill-purple-500 fill-teal-500"/>
             {/* END HACK */}
-            <div className="w-full mb-1 justfy-self-start font-thin text-sm">Share this link with friend: <span className="underline"><a href={ `${ window.location.protocol }//${ window.location.host }/${ gid }` } target="_blank" rel="noreferrer">{ `${ window.location.protocol }//${ window.location.host }/${ gid }` }</a></span></div>
+            <div className="w-full mb-1 justfy-self-start font-thin text-sm">Share this link with friends: <span className="underline"><a href={ `${ window.location.protocol }//${ window.location.host }/${ gid }` } target="_blank" rel="noreferrer">{ `${ window.location.protocol }//${ window.location.host }/${ gid }` }</a></span></div>
             <hr className="w-full mb-2"/>
             <div className="flex w-full justify-between items-center mb-4">
                 <div className="flex">
@@ -129,10 +128,10 @@ export default function GamePage() {
                     </div>
 
                     <div className="mb-4 w-full flex justify-between items-center" style={{ height: `${tileSize}px` }}>
-                        <div className="flex flex-col items-center text-zinc-400">
-                            <div className="text-xs font-light italic mb-1">Drag to place</div>
-                            <BsArrowUp />    
-                        </div>                    
+                        <div className="flex flex-col items-center text-zinc-400 max-w-[20%]">
+                            <div className="text-xs font-light italic mb-1 text-center">Click tile to rotate</div>
+                            <BsArrowClockwise />    
+                        </div>       
                         {
                             [0, 1, 2].map((_, idx) => 
                                 <div key={ idx } className="box-border border border-zinc-100" style={{ width: `${ tileSize }px`, height: `${ tileSize }px` }}>
@@ -145,9 +144,9 @@ export default function GamePage() {
                                     }
                                 </div>) 
                         }
-                        <div className="flex flex-col items-center text-zinc-400">
-                            <div className="text-xs font-light italic mb-1">Click to rotate</div>
-                            <BsArrowClockwise />    
+                        <div className="flex flex-col items-center text-zinc-400 max-w-[20%]">
+                            <div className="text-xs font-light italic mb-1 text-center">Drag tile to place</div>
+                            <BsArrowUp />    
                         </div>
                     </div>
                 </div>
