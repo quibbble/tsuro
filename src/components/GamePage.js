@@ -31,7 +31,6 @@ export default function GamePage() {
             // else if (msg.Type === "Chat") setChat(c => c.concat([msg.Payload]));
             else if (msg.Type === "Connected") setConnected(msg.Payload);
             // else if (msg.Type === "Error") setError(msg.Payload);
-            console.log(msg);
         };
         ws.current.onerror = () => history.push("/");
     }, [ws, history, gid]);
