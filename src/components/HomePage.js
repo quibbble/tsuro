@@ -12,7 +12,7 @@ export default function HomePage() {
     async function handleGo(e) {
         e.preventDefault();
         let status = await CreateGame(gid, teams, null);
-        if (status === 201) history.push(`/${ gid }`);
+        if (status === 201 || status === 400) history.push(`/${ gid }`);
     }
     return (
         <div className="flex flex-col items-center">
