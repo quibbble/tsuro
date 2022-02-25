@@ -29,7 +29,7 @@ export default function HomePage() {
             </form>
             <div className="flex w-full justify-between">
                 <div className="font-thin italic text-xs">
-                    <a href="https://www.buymeacoffee.com/chrisfregly" target="_blank" rel="noreferrer">support the developer</a>
+                    <a href="https://www.buymeacoffee.com/quibbble" target="_blank" rel="noreferrer">support the developer</a>
                 </div>
                 <div className="flex items-center ml-3">
                     <div className="mr-1 font-black text-blue-500">PLAYERS</div>
