@@ -12,7 +12,7 @@ export default function Scaling({ children }) {
     });
 
     return (
-        <div className="flex items-center h-full">
+        <div className="flex flex-col items-center h-full">
             <div className="w-full h-full mx-auto my-0 px-2 py-4 flex flex-col box-border" style={{ maxWidth: maxWidth, maxHeight: maxHeight }}>
                 { children }
             </div>

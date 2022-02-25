@@ -24,10 +24,7 @@ export const CreateGame = async (id, teams, turnLength) => {
     };
     return axios(config)
         .catch(error => error.response)
-        .then(response => {
-            console.log(response);
-            return response.status
-        })
+        .then(response => response.status);
 };
 
 export const LoadGame = async (id, bgn) => {
