@@ -16,7 +16,7 @@ export default function HomePage() {
     }
     return (
         <div className="flex flex-col items-center">
-            <div className="coquette text-5xl font-black text-red-600 mb-1 cursor-pointer">
+            <div className="title text-5xl font-black text-red-600 mb-1 cursor-pointer">
                 <a href={ `${ window.location.protocol }//${ window.location.host }` }>Tsuro</a>
             </div>
             <div className="font-thin mb-3">

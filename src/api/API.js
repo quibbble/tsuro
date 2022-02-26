@@ -3,17 +3,15 @@ import { CONFIG } from "../components/Config";
 
 axios.defaults.withCredentials = true;
 
-const key = "Tsuro"
-
 export const CreateGame = async (id, teams, turnLength) => {
     let config = {
         method: 'POST',
-        url: `http${CONFIG.scheme}://${CONFIG.host}/game/create`,
+        url: `http${ CONFIG.scheme }://${ CONFIG.host }/game/create`,
         headers: {
             'Content-Type': 'application/json'
         },
         data : JSON.stringify({
-            GameKey: key,
+            GameKey: CONFIG.key,
             GameID: id,
             Teams: teams,
             TurnLength: turnLength,
@@ -30,12 +28,12 @@ export const CreateGame = async (id, teams, turnLength) => {
 export const LoadGame = async (id, bgn) => {
     let config = {
         method: 'POST',
-        url: `http${CONFIG.scheme}://${CONFIG.host}/game/load`,
+        url: `http${ CONFIG.scheme }://${ CONFIG.host }/game/load`,
         headers: {
             'Content-Type': 'application/json'
         },
         data : JSON.stringify({
-            GameKey: key,
+            GameKey: CONFIG.key,
             GameID: id,
             BGN: bgn
         })
@@ -48,7 +46,7 @@ export const LoadGame = async (id, bgn) => {
 export const GetBGN = async (id) => {
     let config = {
         method: 'GET',
-        url: `http${CONFIG.scheme}://${CONFIG.host}/game/bgn?GameKey=${key}&GameID=${id}`,
+        url: `http${ CONFIG.scheme }://${ CONFIG.host }/game/bgn?GameKey=${ CONFIG.key }&GameID=${id}`,
     };
     return axios(config)
         .catch(error => error.response)

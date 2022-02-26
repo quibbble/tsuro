@@ -23,7 +23,7 @@ export default function GamePage() {
     // const [error, setError] = useState();
 
     useEffect(() => {
-        ws.current = new WebSocket(`ws${ CONFIG.scheme }://${ CONFIG.host }/game/join?GameKey=Tsuro&GameID=${ gid }`);
+        ws.current = new WebSocket(`ws${ CONFIG.scheme }://${ CONFIG.host }/game/join?GameKey=${ CONFIG.key }&GameID=${ gid }`);
         ws.current.onopen = () => {};
         ws.current.onclose = () => history.push("/");
         ws.current.onmessage = async e => {
@@ -155,7 +155,7 @@ export default function GamePage() {
 
             <hr className="w-full mb-2"/>
             <div className="w-full flex justify-between items-center">
-                <div className="coquette leading-4 text-2xl font-black text-red-600 cursor-pointer">
+                <div className="title leading-4 text-2xl font-black text-red-600 cursor-pointer">
                     <a href={ `${ window.location.protocol }//${ window.location.host }` }>Tsuro</a>
                 </div>
                 <div className="flex">
