@@ -24,7 +24,7 @@ export default function HomePage() {
                 To create a game or join an existing one, enter a game ID and click 'Go'.
             </div>
             <form className="w-full flex mb-2" onSubmit={ handleGo }>
-                <input className="w-10/12 p-2 text-zinc-100 bg-zinc-800 border border-zinc-100 text-3xl font-medium box-border focus:outline-dashed outline-blue-500 outline-2" autoFocus type="text" value={ gid } onChange={ e => setGameID(e.target.value) }/>
+                <input className="w-10/12 p-2 text-zinc-100 bg-zinc-800 rounded-none border border-zinc-100 text-3xl font-medium box-border focus:outline-dashed outline-blue-500 outline-2" autoFocus type="text" value={ gid } onChange={ e => setGameID(e.target.value) }/>
                 <button className="w-2/12 font-bold grow-0 bg-blue-500">Go</button>
             </form>
             <div className="flex w-full justify-between">
