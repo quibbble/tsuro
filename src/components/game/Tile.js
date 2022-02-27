@@ -13,30 +13,22 @@ export default function Tile({ edges, paths, row, col, tokens, team, placeTile }
         setNotches(temp)
     }, [row, col, tokens]);
 
-    const [hideTile, setHideTile] = useState(false);
-    const [{isDragging}, drag] = useDrag(() => ({
+    const [{opacity}, drag, preview] = useDrag(() => ({
         type: "tile",
         item: { edges },
         canDrag: () => row < 0 && col < 0,
         end: (item, monitor) => {
             const dropResult = monitor.getDropResult();
             if (item && dropResult) placeTile(team, dropResult.row, dropResult.col, edges);
-            setHideTile(false);
         },
         collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
-            handlerId: monitor.getHandlerId(),
+            opacity: monitor.isDragging() ? 0.4 : 1,
         }),
     }), [edges, team]);
 
-    useEffect(() => {
-        if (isDragging) setHideTile(true);
-    }, [isDragging]);
-
     return (
-        hideTile ?
-            <span/> :
-            <div ref={drag}>
+        <div ref={ preview }>
+            <div ref={ drag } style={{ opacity }} className={ edges ? "bg-zinc-900" : "" }>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 75 75">
                     {
                         edges ?
@@ -50,5 +42,6 @@ export default function Tile({ edges, paths, row, col, tokens, team, placeTile }
                     { notches.map(n => n) }
                 </svg>
             </div>
+        </div>
     )
 }

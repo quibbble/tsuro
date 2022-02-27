@@ -66,6 +66,12 @@ export default function GamePage() {
         return _ => window.removeEventListener("resize", handleResize)
     });
 
+    // copied logic
+    const [copied, setCopied] = useState(0);
+    useEffect(() => {
+        if (copied > 0) setTimeout(() => setCopied(copied-1), 1000);
+    }, [copied]);
+
     // board resize logic
     const [tileSize, setTileSize] = useState(0);
     const ref = useRef(null);
@@ -81,14 +87,31 @@ export default function GamePage() {
     }, []);
 
     return (
-        <div ref={ref} className="h-full flex flex-col items-center">
+        <div ref={ref} className="h-full flex flex-col items-center select-none">
             {/* TAILWIND HACK - Tailwind preloads only used classes so anything not in initial render will not work */}
             <div className="text-red-500 text-blue-500 text-green-500 text-yellow-500 text-orange-500 text-pink-500 text-purple-500 text-teal-500"/>
             <div className="border-red-500 border-blue-500 border-green-500 border-yellow-500 border-orange-500 border-pink-500 border-purple-500 border-teal-500"/>
             <div className="bg-red-500 bg-blue-500 bg-green-500 bg-yellow-500 bg-orange-500 bg-pink-500 bg-pink-500 bg-purple-500 bg-teal-500"/>
             <div className="fill-red-500 fill-blue-500 fill-green-500 fill-yellow-500 fill-orange-500 fill-pink-500 fill-pink-500 fill-purple-500 fill-teal-500"/>
             {/* END HACK */}
-            <div className="w-full mb-1 justfy-self-start font-thin text-sm">Share this link with friends: <span className="underline"><a href={ `${ window.location.protocol }//${ window.location.host }/${ gid }` } target="_blank" rel="noreferrer">{ `${ window.location.protocol }//${ window.location.host }/${ gid }` }</a></span></div>
+            <div className="relative w-full mb-1 justfy-self-start font-thin text-sm">
+                Share this link with friends:&nbsp;
+                <span className="underline cursor-pointer" onClick={() => {
+                    setCopied(1);
+                    navigator.clipboard.writeText(`${ window.location.protocol }//${ window.location.host }/${ gid }`)
+                }}>
+                    { `${ window.location.protocol }//${ window.location.host }/${ gid }` }
+                </span>
+                {
+                    copied > 0 ?
+                        <div className="absolute mt-2 w-full flex justify-center">
+                            <div className="absolute top-[-12px] w-6 overflow-hidden inline-block">
+                                <div className=" h-4 w-4 bg-zinc-600 rotate-45 transform origin-bottom-left" />
+                            </div>
+                            <div className="font-bold text-xs text-center bg-zinc-600 px-2 py-1">copied!</div>
+                        </div> : null
+                }
+            </div>
             <hr className="w-full mb-2"/>
             <div className="flex w-full justify-between items-center mb-4">
                 <div className="flex">
