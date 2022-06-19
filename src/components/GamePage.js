@@ -45,7 +45,8 @@ export default function GamePage() {
 
     const resetGame = () => {
         if (!ws.current) return;
-        ws.current.send(JSON.stringify({"ActionType": "Reset", "MoreDetails": {"MoreOptions": {"Seed": Date.now()}}}));
+        const variant = game ? game.MoreData.Variant : "Classic"
+        ws.current.send(JSON.stringify({"ActionType": "Reset", "MoreDetails": {"MoreOptions": {"Seed": Date.now(), "Variant": variant }}}));
     }
 
     const placeTile = (team, row, col, tile) => {
@@ -57,6 +58,12 @@ export default function GamePage() {
         if (!ws.current) return;
         ws.current.send(JSON.stringify({"ActionType": "RotateTileRight", "Team": team, "MoreDetails": {"Tile": tile}}));
     }
+
+    useEffect(() => {
+        if (game && network && connected && game.MoreData.Variant === "Solo" && connected[network.Name] != game.Turn) {
+            setTeam(game.Turn)
+        }
+    }, [game, network, connected])
 
     // trigger used to force a refresh of the page
     const [trigger, setTrigger] = useState(true);

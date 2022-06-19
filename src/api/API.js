@@ -3,7 +3,7 @@ import { CONFIG } from "../components/Config";
 
 axios.defaults.withCredentials = true;
 
-export const CreateGame = async (id, teams, turnLength) => {
+export const CreateGame = async (id, teams, turnLength, variant) => {
     let config = {
         method: 'POST',
         url: `http${ CONFIG.scheme }://${ CONFIG.host }/game/create`,
@@ -17,6 +17,7 @@ export const CreateGame = async (id, teams, turnLength) => {
             TurnLength: turnLength,
             MoreOptions: {
                 Seed: Date.now(),
+                Variant: variant,
             }
         })
     };
