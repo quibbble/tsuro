@@ -188,7 +188,7 @@ export default function GamePage() {
                 <div className="title leading-4 text-2xl font-black text-red-600 cursor-pointer">
                     <a href={ `${ window.location.protocol }//${ window.location.host }` }>
                         Tsuro
-                        <span className="ml-1 raleway text-[0.5rem] md:text-xs text-zinc-100">{game ? game.MoreData.Variant : ""}</span>
+                        <span className="ml-1 raleway text-[0.5rem] md:text-xs text-zinc-100">{ game ? game.MoreData.Variant : "" }</span>
                     </a>
                 </div>
                 <div className="flex">
