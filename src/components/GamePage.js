@@ -28,7 +28,10 @@ export default function GamePage() {
         ws.current.onclose = () => history.push("/");
         ws.current.onmessage = async e => {
             let msg = JSON.parse(e.data);
-            if (msg.Type === "Game") setGame(msg.Payload);
+            if (msg.Type === "Game") {
+                setGame(msg.Payload);
+                console.log(msg.Payload)
+            }
             else if (msg.Type === "Network") setNetwork(msg.Payload);
             // else if (msg.Type === "Chat") setChat(c => c.concat([msg.Payload]));
             else if (msg.Type === "Connected") setConnected(msg.Payload);
@@ -60,7 +63,7 @@ export default function GamePage() {
     }
 
     useEffect(() => {
-        if (game && network && connected && game.MoreData.Variant === "Solo" && connected[network.Name] != game.Turn) {
+        if (game && network && connected && game.MoreData.Variant === "Solo" && connected[network.Name] !== game.Turn) {
             setTeam(game.Turn)
         }
     }, [game, network, connected])
@@ -122,7 +125,7 @@ export default function GamePage() {
             <hr className="w-full mb-2"/>
             <div className="flex w-full justify-between items-center mb-4">
                 <div className="flex">
-                    { game ? game.Teams.map(el => <div key={ el } className={ `cursor-pointer mr-1 w-6 h-6 rounded-full border-4 border-${ el }-500 ${ network && connected && connected[network.Name] === el  ? `bg-${ connected[network.Name] }-500` : "" }` } onClick={ () => setTeam(el) }/>) : null }
+                    { game ? game.Teams.map(el => <div key={ el } className={ `text-xs flex items-center justify-center font-bold cursor-pointer mr-1 w-6 h-6 rounded-full border-4 border-${ el }-500 ${ network && connected && connected[network.Name] === el  ? `bg-${ connected[network.Name] }-500` : "" }` } onClick={ () => setTeam(el) }>{ game && ["LongestPath", "MostCrossings"].includes(game.MoreData.Variant) ? game.MoreData.Points[el] : "" }</div>) : null }
                 </div>
                 <div className={ `font-extrabold ${ game && connected && network && connected[network.Name] && game.Winners.length === 0 ? `text-${ game.Turn }-500` : "text-zinc-100" }` }>
                     { 
@@ -186,7 +189,10 @@ export default function GamePage() {
             <hr className="w-full mb-2"/>
             <div className="w-full flex justify-between items-center">
                 <div className="title leading-4 text-2xl font-black text-red-600 cursor-pointer">
-                    <a href={ `${ window.location.protocol }//${ window.location.host }` }>Tsuro</a>
+                    <a href={ `${ window.location.protocol }//${ window.location.host }` }>
+                        Tsuro
+                        <span className="ml-1 raleway text-[0.5rem] md:text-xs text-zinc-100">{game ? game.MoreData.Variant : ""}</span>
+                    </a>
                 </div>
                 <div className="flex">
                     <div className="flex">
