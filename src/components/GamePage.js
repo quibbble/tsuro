@@ -28,10 +28,7 @@ export default function GamePage() {
         ws.current.onclose = () => history.push("/");
         ws.current.onmessage = async e => {
             let msg = JSON.parse(e.data);
-            if (msg.Type === "Game") {
-                setGame(msg.Payload);
-                console.log(msg.Payload)
-            }
+            if (msg.Type === "Game") setGame(msg.Payload);
             else if (msg.Type === "Network") setNetwork(msg.Payload);
             // else if (msg.Type === "Chat") setChat(c => c.concat([msg.Payload]));
             else if (msg.Type === "Connected") setConnected(msg.Payload);
