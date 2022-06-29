@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { Adjectives, Nouns } from "./Words";
 import { CreateGame } from "../api/API";
 import { useHistory } from "react-router-dom"
-import { IoMdInformationCircleOutline } from "react-icons/io"
+// import { IoMdInformationCircleOutline } from "react-icons/io"
 import Footer from "./Footer";
 
 export default function HomePage() {
     const history = useHistory();
 
     const [gid, setGameID] = useState(`${ Adjectives[Math.floor(Math.random()*Adjectives.length)] }-${ Nouns[Math.floor(Math.random()*Nouns.length)] }`);
-    const [variant, setVariant] = useState("Classic")
+    const [variant,] = useState("Classic")
     const [teams, setTeams] = useState(2);
     const [showVariantPopop, setShowVariantPopup] = useState(false)
 
@@ -52,11 +52,11 @@ export default function HomePage() {
                             <a href="https://quibbble.com">more <span className="quibbble text-sm not-italic">quibbble</span> games</a>
                         </div>
                         <div className="flex items-center order-1 md:order-2 mb-2 md:mb-0">
-                            <IoMdInformationCircleOutline className="mr-1 text-xl cursor-pointer" onClick={() => setShowVariantPopup(true)}/>
+                            {/* <IoMdInformationCircleOutline className="mr-1 text-xl cursor-pointer" onClick={() => setShowVariantPopup(true)}/>
                             <div className="mr-1 font-black text-blue-500">VARIANT</div>
                             <select className="mr-1 bg-zinc-800 text-xs h-6 border font-bold border-zinc-100 focus:outline-none" id="players" onChange={ e => setVariant(e.target.value.replace(/\s/g, "")) }>
                                 { ["Classic", "Longest Path", "Most Crossings", "Open Tiles", "Solo"].map(el => <option key={ el } value={ el }>{ el }</option>) }
-                            </select>
+                            </select> */}
                             <div className="mx-1 font-black text-blue-500">{ variant === "Solo" ? "TOKENS" : "PLAYERS" }</div>
                             <select className="bg-zinc-800 text-xs h-6 border font-bold border-zinc-100 focus:outline-none" id="players" onChange={ e => setTeams(parseInt(e.target.value)) }>
                                 { [2, 3, 4, 5, 6, 7, 8].map(el => <option key={ el } value={ el }>{ el }</option>) }

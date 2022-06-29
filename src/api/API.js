@@ -17,7 +17,7 @@ export const CreateGame = async (id, teams, turnLength, variant) => {
             TurnLength: turnLength,
             MoreOptions: {
                 Seed: Date.now(),
-                Variant: variant,
+                // Variant: variant,
             }
         })
     };
