@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Adjectives, Nouns } from "./Words";
-import { CreateGame } from "../api/API";
+import { CreateGame, Health } from "../api/API";
 import { useHistory } from "react-router-dom"
 import { IoMdInformationCircleOutline } from "react-icons/io"
 import Footer from "./Footer";
@@ -12,6 +12,14 @@ export default function HomePage() {
     const [variant, setVariant] = useState("Classic")
     const [teams, setTeams] = useState(2);
     const [showVariantPopop, setShowVariantPopup] = useState(false)
+
+    useEffect(() => {
+        async function fetchHealth() {
+            let response = await Health();
+            if (!response || response.status !== 200) history.push(`/status/down`);
+        }
+        fetchHealth()
+    }, [history])
 
     async function handleGo(e) {
         e.preventDefault();

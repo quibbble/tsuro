@@ -1,7 +1,20 @@
 import React from "react";
 import Footer from "./Footer";
+import { Health } from "../api/API";
+import { useHistory } from "react-router-dom"
 
 export default function DownPage() {
+
+    const history = useHistory();
+
+    setInterval(function () {
+        async function fetchHealth() {
+            let response = await Health();
+            if (response && response.status === 200) history.push(`/`);
+        }
+        fetchHealth()
+    }, 5000);
+
     return (
         <div className="flex flex-col items-center my-8 md:my-12">
             <div className="w-full flex flex-col items-center mt-48">
