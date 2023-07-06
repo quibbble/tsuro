@@ -4,7 +4,6 @@ import { CreateGame, Health } from "../api/API";
 import { useHistory } from "react-router-dom"
 import { IoMdInformationCircleOutline } from "react-icons/io"
 import Footer from "./Footer";
-import Discord from "./Discord";
 
 export default function HomePage() {
     const history = useHistory();
@@ -29,7 +28,6 @@ export default function HomePage() {
     }
     return (
         <div>
-            <Discord />
             <div className="flex flex-col items-center m-8 md:m-12">
                 {
                     showVariantPopop ? 
