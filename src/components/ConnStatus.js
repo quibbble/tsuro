@@ -3,10 +3,11 @@ import { useEffect, useState } from "react";
 export default function ConnStatus({ isConn }) {
     
     const [hide, setHide] = useState(0);
+    
     useEffect(() => {
-        if (isConn) setTimeout(() => setHide(hide-1), 1500);
+        if (isConn) setTimeout(() => setHide(h => h-1), 1500);
         else setHide(0)
-    }, [isConn]);
+    }, [isConn, setHide])
 
     return (
         <div className={`flex items-center ${isConn ? "cursor-pointer" : ""}`}>

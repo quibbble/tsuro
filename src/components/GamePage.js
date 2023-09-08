@@ -27,12 +27,12 @@ export default function GamePage() {
     const [isConn, setIsConn] = useState(true);
 
     useEffect(() => {
-        const connect = async (ws, retries) => {
+        const connect = async (retries) => {
             if (retries <= 0) {
                 history.push("/")
                 return
             }
-            
+
             let response = await Health();
             if (!response || response.status !== 200) {
                 history.push(`/status/down`);
@@ -46,7 +46,7 @@ export default function GamePage() {
             ws.current.onclose = () => {
                 setIsConn(false)
                 setTimeout(function() {
-                    connect(ws, retries-1);
+                    connect(retries-1);
                 }, 1000 + ((5-retries)*500));
             };
             ws.current.onmessage = async e => {
@@ -63,8 +63,8 @@ export default function GamePage() {
             };
         }
         let retries = 5
-        connect(ws, retries)
-    }, [ws]);
+        connect(retries)
+    }, [ws, gid, history]);
 
     // websocket messages
     const setTeam = (team) => {
