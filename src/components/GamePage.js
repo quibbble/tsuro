@@ -167,7 +167,7 @@ export default function GamePage() {
                                     </div>) : null 
                         }
                     </div>
-                    <div className={ `font-extrabold ${ game && connected && network && connected[network.Name] && game.Winners.length === 0 ? `text-${ game.Turn }-500` : "text-zinc-100" } ${network && connected && connected[network.Name] === game.Turn ? "animate-pulse" : ""}` }>
+                    <div className={ `font-extrabold ${ game && connected && network && connected[network.Name] && game.Winners.length === 0 ? `text-${ game.Turn }-500` : "text-zinc-100" } ${network && connected && connected[network.Name] === game.Turn && game.Winners.length === 0 ? "animate-pulse" : ""}` }>
                         { 
                             game && connected && network && connected[network.Name] ? 
                                 game.Message : 
@@ -236,7 +236,7 @@ export default function GamePage() {
                     </div>
                     <div className="flex">
                         <div className="flex">
-                            <div className="px-3 py-1 font-bold cursor-pointer flex items-center justify-center text-xs bg-zinc-600 mr-2" onClick={ () => resetGame() }>new game</div>
+                            <div className={`px-3 py-1 font-bold cursor-pointer flex items-center justify-center text-xs bg-zinc-600 mr-2 ${ game.Winners.length > 0 ? "animate-pulse" : ""}`} onClick={ () => resetGame() }>new game</div>
                         </div>
                         <div className="italic text-xs bg-blue-500 py-1 px-2">
                             <a href="https://quibbble.com">more <span className="quibbble text-sm not-italic">quibbble</span> games</a>
