@@ -9,6 +9,8 @@ import { TouchBackend } from "react-dnd-touch-backend";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { isMobile } from "react-device-detect";
+import ConnStatus from "./ConnStatus";
+import { Health } from "../api/API";
 
 export default function GamePage() {
     const history = useHistory();
@@ -22,20 +24,47 @@ export default function GamePage() {
     const [connected, setConnected] = useState();
     // const [error, setError] = useState();
 
+    const [isConn, setIsConn] = useState(true);
+
     useEffect(() => {
-        ws.current = new WebSocket(`ws${ CONFIG.scheme }://${ CONFIG.host }/game/join?GameKey=${ CONFIG.key }&GameID=${ gid }`);
-        ws.current.onopen = () => {};
-        ws.current.onclose = () => history.push("/");
-        ws.current.onmessage = async e => {
-            let msg = JSON.parse(e.data);
-            if (msg.Type === "Game") setGame(msg.Payload);
-            else if (msg.Type === "Network") setNetwork(msg.Payload);
-            // else if (msg.Type === "Chat") setChat(c => c.concat([msg.Payload]));
-            else if (msg.Type === "Connected") setConnected(msg.Payload);
-            // else if (msg.Type === "Error") setError(msg.Payload);
-        };
-        ws.current.onerror = () => history.push("/");
-    }, [ws, history, gid]);
+        const connect = async (ws, retries) => {
+            if (retries <= 0) {
+                history.push("/")
+                return
+            }
+            
+            let response = await Health();
+            if (!response || response.status !== 200) {
+                history.push(`/status/down`);
+                return
+            }
+    
+            ws.current = new WebSocket(`ws${ CONFIG.scheme }://${ CONFIG.host }/game/join?GameKey=${ CONFIG.key }&GameID=${ gid }`);
+            ws.current.onopen = () => {
+                setIsConn(true)
+            };
+            ws.current.onclose = () => {
+                setIsConn(false)
+                setTimeout(function() {
+                    connect(ws, retries-1);
+                }, 1000 + ((5-retries)*500));
+            };
+            ws.current.onmessage = async e => {
+                let msg = JSON.parse(e.data);
+                if (msg.Type === "Game") setGame(msg.Payload);
+                else if (msg.Type === "Network") setNetwork(msg.Payload);
+                // else if (msg.Type === "Chat") setChat(c => c.concat([msg.Payload]));
+                else if (msg.Type === "Connected") setConnected(msg.Payload);
+                // else if (msg.Type === "Error") setError(msg.Payload);
+            };
+            ws.current.onerror = e => {
+                console.error('Socket encountered error: ', e.message, 'Closing socket');
+                ws.close();
+            };
+        }
+        let retries = 5
+        connect(ws, retries)
+    }, [ws]);
 
     // websocket messages
     const setTeam = (team) => {
@@ -102,34 +131,47 @@ export default function GamePage() {
                 <div className="bg-red-500 bg-blue-500 bg-green-500 bg-yellow-500 bg-orange-500 bg-pink-500 bg-pink-500 bg-purple-500 bg-teal-500"/>
                 <div className="fill-red-500 fill-blue-500 fill-green-500 fill-yellow-500 fill-orange-500 fill-pink-500 fill-pink-500 fill-purple-500 fill-teal-500"/>
                 {/* END HACK */}
-                <div className="relative w-full mb-1 justfy-self-start font-thin text-sm">
-                    Share this link with friends:&nbsp;
-                    <span className="underline cursor-pointer" onClick={() => {
-                        setCopied(1);
-                        navigator.clipboard.writeText(`${ window.location.protocol }//${ window.location.host }/${ gid }`)
-                    }}>
-                        { `${ window.location.protocol }//${ window.location.host }/${ gid }` }
-                    </span>
-                    {
-                        copied > 0 ?
-                            <div className="absolute mt-2 w-full flex justify-center">
-                                <div className="absolute top-[-12px] w-6 overflow-hidden inline-block">
-                                    <div className=" h-4 w-4 bg-zinc-600 rotate-45 transform origin-bottom-left" />
-                                </div>
-                                <div className="font-bold text-xs text-center bg-zinc-600 px-2 py-1">copied!</div>
-                            </div> : null
-                    }
+                <div className="flex justify-between items-center relative w-full mb-1 justfy-self-start font-thin text-sm">
+                    <div>
+                        Share this link:&nbsp;
+                        <span className="underline cursor-pointer" onClick={() => {
+                            setCopied(1);
+                            navigator.clipboard.writeText(`${ window.location.protocol }//${ window.location.host }/${ gid }`)
+                        }}>
+                            { `${ window.location.protocol }//${ window.location.host }/${ gid }` }
+                        </span>
+                        {
+                            copied > 0 ?
+                                <div className="absolute mt-2 w-full flex justify-center">
+                                    <div className="absolute top-[-12px] w-6 overflow-hidden inline-block">
+                                        <div className=" h-4 w-4 bg-zinc-600 rotate-45 transform origin-bottom-left" />
+                                    </div>
+                                    <div className="font-bold text-xs text-center bg-zinc-600 px-2 py-1">copied!</div>
+                                </div> : null
+                        }
+                    </div>
+                    <div className="px-1">
+                        <ConnStatus isConn={isConn} />
+                    </div>
                 </div>
                 <hr className="w-full mb-2"/>
                 <div className="flex w-full justify-between items-center mb-4">
                     <div className="flex">
-                        { game ? game.Teams.map(el => <div key={ el } className={ `text-xs flex items-center justify-center font-bold cursor-pointer mr-1 w-6 h-6 rounded-full border-4 border-${ el }-500 ${ network && connected && connected[network.Name] === el  ? `bg-${ connected[network.Name] }-500` : "" }` } onClick={ () => setTeam(el) }>{ game && ["LongestPath", "MostCrossings"].includes(game.MoreData.Variant) ? game.MoreData.Points[el] : "" }</div>) : null }
+                        { 
+                            game ? 
+                                game.Teams.map(el => 
+                                    <div key={ el } 
+                                        className={ `text-xs flex items-center justify-center font-bold cursor-pointer mr-1 w-6 h-6 rounded-full border-4 border-${ el }-500 ${ network && connected && connected[network.Name] === el  ? `bg-${ connected[network.Name] }-500` : "" }` } 
+                                        onClick={ () => setTeam(el) }>
+                                            { game && ["LongestPath", "MostCrossings"].includes(game.MoreData.Variant) ? game.MoreData.Points[el] : "" }
+                                    </div>) : null 
+                        }
                     </div>
-                    <div className={ `font-extrabold ${ game && connected && network && connected[network.Name] && game.Winners.length === 0 ? `text-${ game.Turn }-500` : "text-zinc-100" }` }>
+                    <div className={ `font-extrabold ${ game && connected && network && connected[network.Name] && game.Winners.length === 0 ? `text-${ game.Turn }-500` : "text-zinc-100" } ${network && connected && connected[network.Name] === game.Turn ? "animate-pulse" : ""}` }>
                         { 
                             game && connected && network && connected[network.Name] ? 
                                 game.Message : 
-                                <div className="flex items-center">
+                                <div className="flex items-center animate-pulse">
                                     <BsArrowLeft className="mr-1" />
                                     <div>select a team</div>
                                 </div>
