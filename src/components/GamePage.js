@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { isMobile } from "react-device-detect";
 import ConnStatus from "./ConnStatus";
-import { Health } from "../api/API";
+import { GetSnapshot, Health } from "../api/API";
 
 export default function GamePage() {
     const history = useHistory();
@@ -44,7 +44,13 @@ export default function GamePage() {
                 history.push(`/status/down`);
                 return
             }
-    
+
+            let snapshot = await GetSnapshot(gid);
+            if (!snapshot || snapshot.status !== 200) {
+                history.push("/")
+                return
+            }
+
             ws.current = new WebSocket(`ws${ CONFIG.scheme }://${ CONFIG.host }/game/join?GameKey=${ CONFIG.key }&GameID=${ gid }`);
             ws.current.onopen = () => {
                 setIsConn(true)
@@ -55,7 +61,7 @@ export default function GamePage() {
                 setIsConn(false)
                 setTimeout(function() {
                     connect(retries-1);
-                }, 1000 + ((5-retries)*500));
+                }, 1000 + ((3-retries)*500));
             };
             ws.current.onmessage = async e => {
                 let msg = JSON.parse(e.data);
@@ -67,10 +73,10 @@ export default function GamePage() {
             };
             ws.current.onerror = e => {
                 console.error('Socket encountered error: ', e.message, 'Closing socket');
-                ws.close();
+                ws.current.close();
             };
         }
-        let retries = 5
+        let retries = 3
         connect(retries)
     }, [ws, gid, history]);
 

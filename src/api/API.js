@@ -53,6 +53,15 @@ export const GetBGN = async (id) => {
         .catch(error => error.response)
 };
 
+export const GetSnapshot = async (id) => {
+    let config = {
+        method: 'GET',
+        url: `http${ CONFIG.scheme }://${ CONFIG.host }/game/snapshot?GameKey=${ CONFIG.key }&GameID=${id}`,
+    };
+    return axios(config)
+        .catch(error => error.response)
+};
+
 export const Health = async () => {
     let config = {
         method: 'GET',
