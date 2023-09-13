@@ -1,10 +1,10 @@
 # Tsuro
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/e3eb6923-fc68-46cb-86f3-d8eb3c131025/deploy-status)](https://app.netlify.com/sites/wizardly-feynman-22a76a/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/e3eb6923-fc68-46cb-86f3-d8eb3c131025/deploy-status)](https://app.netlify.com/sites/tsuro-quibbble/deploys)
 
 Tsuro game website. Play at [tsuro.quibbble.com](https://tsuro.quibbble.com).
 
-This repo contains [ReactJS](https://react.dev) frontend code and makes use of custom React components found at [boardgame](https://github.com/quibbble/go-quibbble). Game logic can be found at [go-tsuro](https://github.com/quibbble/boardgame). Server logic can be found at [go-quibbble](https://github.com/quibbble/go-quibbble). 
+This repo contains [ReactJS](https://react.dev) frontend code and makes use of custom React components found at [boardgame](https://github.com/quibbble/boardgame). Game logic can be found at [go-tsuro](https://github.com/quibbble/go-tsuro). Server logic can be found at [go-quibbble](https://github.com/quibbble/go-quibbble). 
 
 [![Quibbble Tsuro](screenshot.png)](https://tsuro.quibbble.com)
 
