@@ -3,3 +3,4 @@ package-lock.json
 .env.local
 .DS_Store
 /public/.DS_Store
+/.npmrc
