@@ -16,7 +16,6 @@ export const Game = forwardRef((props, ref) => {
 
     const sendPlaceTileAction = useCallback((team, row, col, tile) => {
         if (!ws.current) return;
-        console.log({"ActionType": "PlaceTile", "Team": team, "MoreDetails": {"Row": row, "Column": col, "Tile": tile}})
         ws.current.send(JSON.stringify({"ActionType": "PlaceTile", "Team": team, "MoreDetails": {"Row": row, "Column": col, "Tile": tile}}));
     }, [ws])
 
