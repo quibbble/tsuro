@@ -1,6 +1,6 @@
-import React, { useState, useRef, createRef } from "react";
+import React, { useState, useEffect, useRef, createRef } from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import { GamePage, HomePage, DownPage } from "@quibbble/boardgame";
+import { GamePage, HomePage, DownPage, RulesPage } from "@quibbble/boardgame";
 import { Game } from "./game/Game";
 
 const config = {
@@ -10,13 +10,7 @@ const config = {
 
   // game attributes
   key: "Tsuro",
-  variants: {
-    "Classic": "standard Tsuro.",
-    "Longest Path": "player with the longest path wins.",
-    "Most Crossings": "player whose path crosses itself the most wins.",
-    "Open Tiles": "players place tiles from a common pool.",
-    "Solo": "place all the tiles while keeping every token alive."
-  },
+  variants: ["Classic", "Longest Path", "Most Crossings", "Open Tiles", "Solo"],
   minTeams: 2,
   maxTeams: 8,
 
@@ -37,6 +31,16 @@ export default function App() {
     const [chat, setChat] = useState([]);
     const [connected, setConnected] = useState();
     const [error, setError] = useState();
+
+    const [rules, setRules] = useState("");
+
+    useEffect(() => {
+      import("./rules.md").then(res => {
+        fetch(res.default)
+        .then(response => response.text())
+        .then(text => setRules(text))
+      })
+    }, [])
   
     return (
       <BrowserRouter>
@@ -57,6 +61,7 @@ export default function App() {
             }
           />
           <Route exact path="/status/down" element={ <DownPage config={ config } /> }/>
+          <Route exact path="/rules" element={ <RulesPage config={ config } rules={ rules } /> }/>
           <Route path="/" element={ <HomePage config={ config } /> } />
         </Routes>
       </BrowserRouter>
