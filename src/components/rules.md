@@ -17,7 +17,7 @@ The goal of Tsuro is to be the last player with your game token on the board.
 5. Play continues clockwise around the board.
 
 ## How to Play 🚀
-Here's what you do on your turn:
+What to do on your turn:
 
 1. **Play a Path Tile:** Choose one of your Path Tiles and put it on the board. Connect it to where your token is now.
 
