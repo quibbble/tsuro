@@ -1,7 +1,7 @@
 [![tsuro](./screenshot.png)](/)
 
 ## Objective 🎯
-The goal of Tsuro is to be the last player with your game token on the board.
+Place tiles and travel across the board to outlast your opponents.
 
 ## Components 🧱
 - A 6 x 6 tiled game board.
