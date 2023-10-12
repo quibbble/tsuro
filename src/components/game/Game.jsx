@@ -61,7 +61,7 @@ export const Game = forwardRef((props, ref) => {
     const [tileSize, setTileSize] = useState(0);
 
     const handleResize = useCallback(() => {
-        const width = 6;
+        const width = 6.2;
         if (!ref || !ref.current) return;
         else setTileSize(ref.current.clientWidth/width);
     }, [ref])
@@ -96,7 +96,7 @@ export const Game = forwardRef((props, ref) => {
                     }
                 </div>
 
-                <div className="mb-4 w-full flex justify-between items-center" style={{ height: `${tileSize}px` }}>
+                <div className="w-full flex justify-between items-center" style={{ height: `${tileSize}px` }}>
                     <div className="flex flex-col items-center text-zinc-400 max-w-[20%] select-none">
                         <div className="text-xs font-light italic mb-1 text-center">Click tile to rotate</div>
                         <BsArrowClockwise />    
